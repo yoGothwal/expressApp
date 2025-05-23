@@ -1,0 +1,24 @@
+POST http://localhost:5000/register
+Content-Type: application/json
+
+{
+  "username": "testuser3",
+  "password": "testpassword"
+}
+###
+POST http://localhost:5000/login
+Content-Type: application/json
+
+{
+  "username": "testuser3",
+  "password": "testpassword"
+}
+###
+POST http://localhost:5000/notes
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODMwZDQ1NWRhMDc1YmM1NjQzZDI1ZDgiLCJpYXQiOjE3NDgwMzA1NjYsImV4cCI6MTc0ODAzNDE2Nn0.jQgI0GBWoSeVqcIlwgLrSmNB3gajwD6KBuFlEcXlMKA
+
+{
+  "title": "Test delete Note ",
+  "content": "This is a test note to be deleted."
+}
