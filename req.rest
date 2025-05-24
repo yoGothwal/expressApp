@@ -2,7 +2,7 @@ POST http://localhost:5000/register
 Content-Type: application/json
 
 {
-  "username": "testuser3",
+  "username": "testuser4",
   "password": "testpassword"
 }
 ###
@@ -10,15 +10,21 @@ POST http://localhost:5000/login
 Content-Type: application/json
 
 {
-  "username": "testuser3",
+  "username": "testuser4",
   "password": "testpassword"
 }
 ###
+GET http://localhost:5000/notes
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODMwZGE3NzQxZjIxMjQzY2Y4YzhiMGMiLCJpYXQiOjE3NDgwMzIxMjEsImV4cCI6MTc0ODAzNTcyMX0.PbaoV1e74SGC2FuGZ58ltplGV2kUdg-9KL7oFJewfyg
+###
 POST http://localhost:5000/notes
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODMwZDQ1NWRhMDc1YmM1NjQzZDI1ZDgiLCJpYXQiOjE3NDgwMzA1NjYsImV4cCI6MTc0ODAzNDE2Nn0.jQgI0GBWoSeVqcIlwgLrSmNB3gajwD6KBuFlEcXlMKA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODMwZGE3NzQxZjIxMjQzY2Y4YzhiMGMiLCJpYXQiOjE3NDgwMzIxMjEsImV4cCI6MTc0ODAzNTcyMX0.PbaoV1e74SGC2FuGZ58ltplGV2kUdg-9KL7oFJewfyg
 
 {
-  "title": "Test delete Note ",
-  "content": "This is a test note to be deleted."
+  "title": "Test Note 3 ",
+  "content": "This is a test note 3."
 }
+###
+DELETE http://localhost:5000/notes/6830db2d77b0c07f51d34d31
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODMwZGE3NzQxZjIxMjQzY2Y4YzhiMGMiLCJpYXQiOjE3NDgwMzIxMjEsImV4cCI6MTc0ODAzNTcyMX0.PbaoV1e74SGC2FuGZ58ltplGV2kUdg-9KL7oFJewfyg
