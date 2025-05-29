@@ -5,9 +5,13 @@ const JWT_SECRET = 'TSDIIgP5';
 const JWT_EXPIRATION = '1h';
 const app = express()
 app.use(express.json());
-
+const cors = require('cors');
+app.use(cors({
+    origin: '*'
+}))
 const PORT = 5000
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+
 const MONGODB_URI = "mongodb://localhost:27017/MYEXPRESSDB"
 mongoose.connect(MONGODB_URI, {
     useNewUrlParser: true,
@@ -66,7 +70,7 @@ app.post('/register', async (req, res) => {
         await newUser.save()
         res.status(201).json({ message: `${username} saved successfully` })
     } catch (error) {
-        return res.status(500).json({ message: "Failed to save user" })
+        res.status(500).json({ message: "Failed to save user" })
     }
 })
 app.post('/login', async (req, res) => {
@@ -82,7 +86,7 @@ app.post('/login', async (req, res) => {
     try {
         const isPasswordValid = bcrypt.compareSync(password, user.password)
         if (!isPasswordValid) {
-            return res.status.apply(400).json({ message: "Password not matched" })
+            return res.status(400).json({ message: "Password not matched" })
         }
         const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: JWT_EXPIRATION })
         console.log("Token generated: ", token)
@@ -148,122 +152,9 @@ app.delete("/notes/:id", authenticate, async (req, res) => {
         res.status(500).json({ message: "Failed to delete note" })
     }
 })
+// app.get("*", (req, res) => {
+//     res.status(200).send("Welcome to the Note App API");
+// })
 app.listen(PORT, () => {
     console.log(`App running on port ${PORT}`)
-})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const express = require('express');
-// const mongoose = require('mongoose');
-// const bcrypt = require('bcryptjs');
-// const jwt = require('jsonwebtoken');
-// const cors = require('cors');
-
-// const app = express();
-// const PORT = process.env.PORT || 3000;
-// const MONGO_URI = 'mongodb://localhost:27017/MYEXPRESSDB';
-
-// const JWT_SECRET = 'TSDIIgP5';
-// const JWT_EXPIRATION = '1h';
-
-// app.use(express.json())
-
-// mongoose.connect(MONGO_URI, {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true
-// }).then(() => {
-//     console.log("MongoDB connected")
-// }).catch(err => {
-//     console.error("MongoDB connection error:", err);
-// });
-
-// const userschema = new mongoose.Schema({
-//     username: {
-//         type: String,
-//         required: true,
-//         unique: true
-//     },
-//     password: {
-//         type: String,
-//         required: true
-//     }
-// });
-// const noteschema = new mongoose.Schema({
-//     title: {
-//         type: String,
-//         required: true
-//     },
-//     content: {
-//         type: String,
-//         required: true
-//     },
-//     userId: {
-//         type: mongoose.Schema.Types.ObjectId,
-//         ref: 'User',
-//         required: true
-//     }
-// });
-// const User = mongoose.model('User', userschema);
-// const Note = mongoose.model('Note', noteschema);
-
-// app.use(cors({
-//     origin: '*'
-// }));
-
-// app.post('/register', async (req, res) => {
-//     const { username, password } = req.body
-//     if (!username || !password) {
-//         return res.status(400).json({ message: "Please provide username and password" })
-//     }
-//     const existingUser = await User.findOne({ username })
-//     if (existingUser) {
-//         return res.status(400).json({ message: "User already exists" })
-//     }
-//     try {
-//         const hashedPasword = bcrypt.hashSync(password, 10)
-//         const newUser = new User({
-//             username,
-//             password: hashedPasword
-//         })
-//         await newUser.save()
-//         res.status(201).json({ message: "User registered successfully" })
-//     } catch (error) {
-//         console.error("Error registering user:", error);
-//         res.status(500).json({ message: "Internal server error" })
-//     }
-// })
-// app / post('/login', async (req, res) => {
-//     const { username, password } = req.body
-//     if (!username || !password) {
-//         return res.status(400).json({ message: "Please provide username and password" })
-//     }
-//     const user = await User.find({ username })
-//     if (!user) {
-//         return res.status(400).json({ message: "User not found" })
-//     }
-//     const isPasswordValid = bcrypt.compareSync(password, user.password)
-//     if (!isPasswordValid) {
-//         return res.status(400).json({ message: "Invalid password" })
-//     }
-//     const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIN: JWT_EXPIRATION })
-//     res.status(200).json({ token })
-// })
-// const authenticate = (req, res, next)=>{
-//     const authorization = req.headers
-
-// }
-// app.listen(5000, () => {
-//     console.log("service running on 5000")
-// })
+});
