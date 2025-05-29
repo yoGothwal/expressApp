@@ -12,7 +12,7 @@ app.use(cors({
 const PORT = 5000
 const mongoose = require('mongoose');
 
-const MONGODB_URI = "mongodb://localhost:27017/MYEXPRESSDB"
+const MONGODB_URI = process.env.MONGO_URI || "mongodb+srv://gothwalyoge:JzQgB5UpOaIAobTF@cluster1.7euci.mongodb.net/proddata?retryWrites=true&w=majority&appName=Cluster1";
 mongoose.connect(MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
