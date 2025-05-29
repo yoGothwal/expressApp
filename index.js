@@ -13,7 +13,7 @@ app.use(cors({
 const PORT = 5000
 const mongoose = require('mongoose');
 
-const MONGODB_URI = process.env.MONGO_URI
+const MONGODB_URI = process.env.NODE_ENV === "production" ? process.env.MONGO_URI : "mongodb://localhost:27017/devdata";
 mongoose.connect(MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
