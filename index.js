@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken')
 const JWT_SECRET = 'TSDIIgP5';
 const JWT_EXPIRATION = '1h';
 const app = express()
+require('dotenv').config();
 app.use(express.json());
 const cors = require('cors');
 app.use(cors({
@@ -12,7 +13,7 @@ app.use(cors({
 const PORT = 5000
 const mongoose = require('mongoose');
 
-const MONGODB_URI = process.env.MONGO_URI || "mongodb+srv://gothwalyoge:JzQgB5UpOaIAobTF@cluster1.7euci.mongodb.net/proddata?retryWrites=true&w=majority&appName=Cluster1";
+const MONGODB_URI = process.env.MONGO_URI
 mongoose.connect(MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
