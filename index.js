@@ -8,8 +8,9 @@ require('dotenv').config();
 app.use(express.json());
 const cors = require('cors');
 app.use(cors({
-    origin: '*'
-}))
+    origin: 'https://frontend-4-te7v.onrender.com',
+    credentials: true
+}));
 const PORT = 5000
 const mongoose = require('mongoose');
 
