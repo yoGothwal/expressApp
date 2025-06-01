@@ -132,7 +132,7 @@ app.post("/notes", authenticate, async (req, res) => {
         title, content, userID: req.userID
     }
     await new Note(newNote).save()
-    res.status(201).json({ message: "Note saved successfully" })
+    res.status(201).json({ message: "Note saved successfully", Note: newNote })
 })
 app.delete("/notes/:id", authenticate, async (req, res) => {
     const id = req.params.id
