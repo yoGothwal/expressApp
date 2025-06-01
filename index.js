@@ -53,7 +53,7 @@ const noteSchema = new mongoose.Schema({
 const User = new mongoose.model("User", userSchema)
 const Note = new mongoose.model("Note", noteSchema)
 
-app.post('/api/register', async (req, res) => {
+app.post('/register', async (req, res) => {
     const { username, password } = req.body
 
     if (!username || !password) {
@@ -75,7 +75,7 @@ app.post('/api/register', async (req, res) => {
         res.status(500).json({ message: "Failed to save user" })
     }
 })
-app.post('/api/login', async (req, res) => {
+app.post('/login', async (req, res) => {
     const { username, password } = req.body
     if (!username || !password) {
         return res.status(400).json({ message: 'please provide username or password' })
@@ -114,7 +114,7 @@ const authenticate = async (req, res, next) => {
         res.status(401).json({ message: "Invalid token" })
     }
 }
-app.get("/api/notes", authenticate, async (req, res) => {
+app.get("/notes", authenticate, async (req, res) => {
     console.log("Notes route")
     const notes = await Note.find({ userID: req.userID })
     console.log("Notes: ", notes)
@@ -123,7 +123,7 @@ app.get("/api/notes", authenticate, async (req, res) => {
     }
     res.status(200).json({ notes })
 })
-app.get("/api/notes/:id", authenticate, async (req, res) => {
+app.get("/notes/:id", authenticate, async (req, res) => {
     const id = req.params.id;
     try {
         const note = await Note.findById(id);
@@ -138,7 +138,7 @@ app.get("/api/notes/:id", authenticate, async (req, res) => {
         res.status(500).json({ message: "Failed to fetch note" });
     }
 });
-app.post("/api/notes", authenticate, async (req, res) => {
+app.post("/notes", authenticate, async (req, res) => {
     console.log("Notes POST route")
     const { title, content } = req.body
     if (!title | !content) {
@@ -150,7 +150,7 @@ app.post("/api/notes", authenticate, async (req, res) => {
     await new Note(newNote).save()
     res.status(201).json({ message: "Note saved successfully", Note: newNote })
 })
-app.delete("/api/notes/:id", authenticate, async (req, res) => {
+app.delete("/notes/:id", authenticate, async (req, res) => {
     const id = req.params.id
     if (!id) {
         return res.status(400).json({ message: "Please provide note id" })
@@ -169,7 +169,7 @@ app.delete("/api/notes/:id", authenticate, async (req, res) => {
         res.status(500).json({ message: "Failed to delete note" })
     }
 })
-app.put("/api/notes/:id", authenticate, async (req, res) => {
+app.put("/notes/:id", authenticate, async (req, res) => {
     const id = req.params.id;
     const { title, content } = req.body;
     if (!title || !content) {
