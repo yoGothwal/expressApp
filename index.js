@@ -122,6 +122,21 @@ app.get("/notes", authenticate, async (req, res) => {
     }
     res.status(200).json({ notes })
 })
+app.get("/notes/:id", authenticate, async (req, res) => {
+    const id = req.params.id;
+    try {
+        const note = await Note.findById(id);
+        if (!note) {
+            return res.status(404).json({ message: "Note not found" });
+        }
+        if (note.userID.toString() !== req.userID) {
+            return res.status(403).json({ message: "You are not authorized to view this note" });
+        }
+        res.status(200).json({ note });
+    } catch (error) {
+        res.status(500).json({ message: "Failed to fetch note" });
+    }
+});
 app.post("/notes", authenticate, async (req, res) => {
     console.log("Notes POST route")
     const { title, content } = req.body
@@ -153,6 +168,28 @@ app.delete("/notes/:id", authenticate, async (req, res) => {
         res.status(500).json({ message: "Failed to delete note" })
     }
 })
+app.put("/notes/:id", authenticate, async (req, res) => {
+    const id = req.params.id;
+    const { title, content } = req.body;
+    if (!title || !content) {
+        return res.status(400).json({ message: "Please provide title and content" });
+    }
+    try {
+        const noteToUpdate = await Note.findById(id);
+        if (!noteToUpdate) {
+            return res.status(404).json({ message: "Note not found" });
+        }
+        if (noteToUpdate.userID.toString() !== req.userID) {
+            return res.status(403).json({ message: "You are not authorized to edit this note" });
+        }
+        noteToUpdate.title = title;
+        noteToUpdate.content = content;
+        await noteToUpdate.save();
+        res.status(200).json({ message: "Note updated successfully", note: noteToUpdate });
+    } catch (error) {
+        res.status(500).json({ message: "Failed to update note" });
+    }
+});
 // app.get("*", (req, res) => {
 //     res.status(200).send("Welcome to the Note App API");
 // })
